@@ -1,5 +1,6 @@
 require 'cpu-widget'
 require 'mem-widget'
+require 'bat-widget'
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -227,6 +228,7 @@ awful.screen.connect_for_each_screen(function(s)
             mytextclock,
             cpu_widget,
             mem_widget,
+            bat_widget,
 			--mytext,
             s.mylayoutbox,
         },
