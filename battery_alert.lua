@@ -1,5 +1,6 @@
 local _, acpi_exit_code
 _, _, acpi_exit_code = (io.popen("which acpi")):close()
+
 if acpi_exit_code == 0 then
   local awful = awful or require('awful')
   local naughty = naughty or require('naughty')
@@ -29,7 +30,7 @@ if acpi_exit_code == 0 then
             title = "           Battery        ",
             text = tostring(battery) .. "% left (" .. tostring(lefttime) .. ")",
 		    bg = "#FF0000",
-            timeout = 20
+            timeout = 30
           })
         end
       else
@@ -44,12 +45,13 @@ if acpi_exit_code == 0 then
             title = "           Battery        ",
             text = tostring(total_battery) .. "% left (" .. tostring(lefttime) .. ")",
 		    bg = "#FF0000",
-            timeout = 20
+            timeout = 30
           })
         end
       end
     end
   end
+
   do
     local _with_0 = timer({
       timeout = INTERVAL_TIME
