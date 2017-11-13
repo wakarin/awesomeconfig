@@ -1,6 +1,7 @@
 local awful = require("awful")
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
+local naughty = require('naughty')
 
 local batgraph_widget = wibox.widget {
     max_value = 100,
@@ -59,7 +60,11 @@ watch("acpi", 1,
 
 batgraph_widget:buttons(
     awful.util.table.join(
-        awful.button({}, 1, function() awful.spawn.with_shell("echo bleft | xclip -selection clipboard")  end),
-        awful.button({}, 3, function() awful.spawn.with_shell("echo bright | xclip -selection clipboard") end)
+        awful.button({}, 1, function() naughty.notify({
+            title = "           Battery        ",
+            text = io.popen("acpi"):read("*a"),
+            bg = "#FF0000",
+            timeout = 10
+        }) end)
     )
 )

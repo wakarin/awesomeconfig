@@ -1,12 +1,13 @@
 local awful = require("awful")
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
+local naughty = require('naughty')
 
 local cpugraph_widget = wibox.widget {
     max_value = 100,
     color = '#74aeab',
     background_color = "#1e252c",
-    forced_width = 50,
+    forced_width = 30,
     step_width = 2,
     step_spacing = 1,
     widget = wibox.widget.graph
@@ -44,7 +45,11 @@ watch("cat /proc/stat | grep '^cpu '", 1,
 
 cpugraph_widget:buttons(
     awful.util.table.join(
-        awful.button({}, 1, function() awful.spawn.with_shell("echo left | xclip -selection clipboard")  end),
-        awful.button({}, 3, function() awful.spawn.with_shell("echo right | xclip -selection clipboard") end)
+        awful.button({}, 1, function() naughty.notify({
+            title = "ps acux --sort -%cpu",
+            text = io.popen("ps acux --sort -%cpu | expand -t 2"):read("*a"),
+            bg = "#000000",
+            timeout = 30
+        }) end)
     )
 )
