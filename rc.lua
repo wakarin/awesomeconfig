@@ -42,8 +42,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 --beautiful.init(awful.util.get_themes_dir() .. "/default/theme.lua")
-beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 --beautiful.init("~/.config/awsome/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
@@ -51,10 +51,6 @@ editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -78,7 +74,7 @@ awful.layout.layouts = {
 }
 -- }}}
 
--- {{{ Helper functions
+--[[ {{{ Helper functions
 local function client_menu_toggle_fn()
     local instance = nil
 
@@ -91,7 +87,7 @@ local function client_menu_toggle_fn()
         end
     end
 end
--- }}}
+-- }}} ]]
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
@@ -125,7 +121,15 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 -- mytextclock = wibox.widget.textclock()
 mytextclock = wibox.widget.textclock("%a %b %d, %H:%M:%S",1)
---mytext = wibox.widget.textbox("ThinkPad")
+mytextclock:buttons (awful.util.table.join(
+    awful.button({}, 1, function() naughty.notify({
+        title = "cal",
+        text = io.popen("cal"):read("*a"),
+        bg = "#000000",
+        timeout = 30
+    }) end)
+    )
+)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -162,7 +166,7 @@ local tasklist_buttons = awful.util.table.join(
                                                   c:raise()
                                               end
                                           end),
-                     awful.button({ }, 3, client_menu_toggle_fn()),
+                     --awful.button({ }, 3, client_menu_toggle_fn()),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                           end),
@@ -190,7 +194,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5"}, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5"}, s, awful.layout.layouts[2])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
