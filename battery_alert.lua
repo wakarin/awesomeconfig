@@ -44,7 +44,7 @@ if acpi_exit_code == 0 then
           return naughty.notify({
             title = "           Battery        ",
             text = tostring(total_battery) .. "% left (" .. tostring(lefttime) .. ")",
-		    bg = "#FF0000",
+		    bg = "#000000",
             timeout = 30
           })
         end
